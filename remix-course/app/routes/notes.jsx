@@ -1,7 +1,7 @@
-import { redirect, useLoaderData } from "@remix-run/react";
+import { isRouteErrorResponse, json, redirect, useLoaderData, useRouteError } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "../components/NewNote";
+import NoteList, { links as noteListLinks } from "../components/NoteList";
 import { getStoredNotes, storeNotes } from "../data/notes";
-import NoteList, {links as noteListLinks} from "../components/NoteList";
 
 export default function NotesPage() {
     const notes = useLoaderData();
@@ -16,7 +16,16 @@ export default function NotesPage() {
 
 export async function loader() {
     // return json(await getStoredNotes());
-    return await getStoredNotes();
+    const notes = await getStoredNotes();
+    if(!notes || notes.length === 0) {
+        throw json(
+            { message: "No notes found" },
+            {
+              status: 404
+            }
+          );
+    }
+    return notes;
 }
 
 export async function action({request}) {
@@ -29,17 +38,36 @@ export async function action({request}) {
   
     const noteData = Object.fromEntries(formData);
     
-    // Add validation...
+    console.log(noteData.title.trim());
+
+    if(noteData.title.trim().length < 5) return {message: 'Title is too short!'};
   
     noteData.id = new Date().toISOString();
-    console.log(noteData);
+
     const currentNotes = await getStoredNotes();
     const updatedNotes = currentNotes.concat(noteData);
-    console.log(updatedNotes);
+
     await storeNotes(updatedNotes);
+
+    // delaying the submission
+    // await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
+
     return redirect('/notes');
   }
 
 export function links() {
     return [...newNoteLinks(), ...noteListLinks()];
+}
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if(isRouteErrorResponse(error)) {
+        return (
+            <main>
+                <NewNote />
+                <p className="info-message">Notes not found!</p>
+                </main>
+        );
+    } else throw error;   
 }
