@@ -4,10 +4,12 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
+  useRouteError
 } from "@remix-run/react";
 
 import styles from '~/styles/main.css';
+import ErrorHandler from "./components/ErrorHandler";
 import MainNavigation from "./components/MainNavigation";
 
 export default function App() {
@@ -28,6 +30,11 @@ export default function App() {
       </body>
     </html>
   );
+}
+
+export function ErrorBoundary() {  
+  const error = useRouteError();
+  return <ErrorHandler error={error} />
 }
 
 export const links = () => {
