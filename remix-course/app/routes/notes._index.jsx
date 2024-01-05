@@ -5,7 +5,7 @@ import { getStoredNotes, storeNotes } from "../data/notes";
 
 export default function NotesPage() {
     const notes = useLoaderData();
-
+    console.log(notes);
     return (
         <main>
             <NewNote />

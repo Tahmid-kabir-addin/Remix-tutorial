@@ -1,1 +1,10 @@
-{"notes":[{"title":"Hi guys new blog!","content":"amar vaiye ekhn tiktok kore.","id":"1"},{"title":"hello","content":"dslfksd","id":"2024-01-04T21:19:57.044Z"}]}
+{
+  "notes": [
+    {
+      "title": "Hi guys new blog!",
+      "content": "ReactJs, NextJs, RemixJs. How many is too many?",
+      "id": "1"
+    },
+    { "title": "hello", "content": "dslfksd", "id": "2024-01-04T21:19:57.044Z" }
+  ]
+}
