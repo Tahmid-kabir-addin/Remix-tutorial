@@ -37,6 +37,14 @@ export function ErrorBoundary() {
   return <ErrorHandler error={error} />
 }
 
-export const links = () => {
+export function links(){
   return [{rel: 'stylesheet', href: styles}];
+}
+
+export function meta() {
+  return [
+    {
+      title: "My Notes App",
+    }
+  ]
 }
