@@ -23,7 +23,7 @@ export async function loader() {
             {
               status: 404
             }
-          );
+        );
     }
     return notes;
 }
@@ -70,4 +70,12 @@ export function ErrorBoundary() {
                 </main>
         );
     } else throw error;   
+}
+
+export function meta() {
+    return [
+        {
+            title: "All Notes"
+        }
+    ];
 }
